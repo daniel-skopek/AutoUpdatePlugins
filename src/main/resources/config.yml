@@ -3,8 +3,8 @@
 ################################################################################
 
 updates:
-  # How often to run plugin updates (minutes). Default: 120 (every 2 hours)
-  interval: 120
+  # How often to run plugin updates (minutes). Example: 120 (every 2 hours)
+  interval: -1
 
   # Delay after server startup (seconds) before the first run. Default: 50
   bootTime: 50

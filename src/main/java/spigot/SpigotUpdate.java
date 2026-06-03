@@ -140,6 +140,8 @@ public final class SpigotUpdate extends JavaPlugin {
 
     private void scheduleIntervalUpdates() {
         int interval = cfgMgr.getInt("updates.interval");
+        if (interval <= 0) return;
+
         long bootTime = cfgMgr.getInt("updates.bootTime");
         SchedulerAdapter sched = new SchedulerAdapter(this);
         sched.runRepeatingAsync(bootTime, 60L * interval, this::runConfiguredUpdateWithRestart);
@@ -479,7 +481,7 @@ public final class SpigotUpdate extends JavaPlugin {
     }
 
     private void generateOrUpdateConfig() {
-        cfgMgr.addDefault("updates.interval", 120, "Time between plugin updates in minutes");
+        cfgMgr.addDefault("updates.interval", -1, "Time between plugin updates in minutes");
         cfgMgr.addDefault("updates.bootTime", 50, "Delay in seconds after server startup before updating");
         cfgMgr.addDefault("updates.schedule.cron", "", "Experimental: A cron expression to schedule updates. Overrides interval and bootTime if set.");
         cfgMgr.addDefault("updates.schedule.timezone", "UTC", "The timezone for the cron schedule.");

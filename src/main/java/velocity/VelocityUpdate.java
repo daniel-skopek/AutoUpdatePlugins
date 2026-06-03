@@ -178,6 +178,8 @@ public final class VelocityUpdate {
 
     private void scheduleIntervalUpdates() {
         long interval = cfgMgr.getInt("updates.interval");
+        if (interval <= 0) return;
+
         long bootTime = cfgMgr.getInt("updates.bootTime");
 
         proxy.getScheduler().buildTask(this, this::runConfiguredUpdateWithRestart).delay(Duration.ofSeconds(bootTime)).repeat(Duration.ofMinutes(interval)).schedule();
@@ -475,7 +477,7 @@ public final class VelocityUpdate {
 
 
     private void generateOrUpdateConfig() {
-        cfgMgr.addDefault("updates.interval", 120, "Time between plugin updates in minutes");
+        cfgMgr.addDefault("updates.interval", -1, "Time between plugin updates in minutes");
         cfgMgr.addDefault("updates.bootTime", 50, "Delay in seconds after server startup before updating");
         cfgMgr.addDefault("updates.schedule.cron", "", "Experimental: A cron expression to schedule updates. Overrides interval and bootTime if set.");
         cfgMgr.addDefault("updates.schedule.timezone", "UTC", "The timezone for the cron schedule.");
